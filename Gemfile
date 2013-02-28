@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in engrade-ruby.gemspec
+# Specify your gem's dependencies in engrade.gemspec
 gemspec

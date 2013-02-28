@@ -1,0 +1,4 @@
+ENV['ENG_USER'] = 'username
+ENV['ENG_PASS'] = 'password'
+ENV['ENG_API'] = 'apikey'
+ENV['ENG_SES'] = 'sample ses token'

@@ -1,19 +1,26 @@
+require 'simplecov'
+SimpleCov.start
+
 #we need the actual library file
-require_relative '../lib/engrade-ruby'
-require 'minitest/autorun'
-require 'webmock/minitest'
+require_relative '../lib/engrade'
+require_relative '../config/environment'
+require 'rspec'
+require 'factory_girl'
+require 'webmock/rspec'
 require 'vcr'
-require 'turn'
-Turn.config do |c|
- # :outline  - turn's original case/test outline mode [default]
- c.format  = :outline
- # turn on invoke/execute tracing, enable full backtrace
- c.trace   = true
- # use humanized test names (works only with :outline format)
- c.natural = true
+
+FactoryGirl.find_definitions
+
+#RSpec config
+RSpec.configure do |spec|
+  spec.color_enabled = true
+  spec.tty = true
+  spec.include FactoryGirl::Syntax::Methods
 end
+
 #VCR config
-VCR.config do |c|
+VCR.configure do |c|
+  c.default_cassette_options = { :serialize_with => :json, :preserve_exact_body_bytes => true }
   c.cassette_library_dir = 'spec/fixtures/engrade_cassettes'
-  c.stub_with :webmock
+  c.hook_into :webmock
 end

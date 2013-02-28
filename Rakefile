@@ -1,9 +1,10 @@
 #!/usr/bin/env rake
 require 'bundler/gem_tasks'
-require 'rake/testtask'
-Rake::TestTask.new do |t|
-  t.libs << 'lib/engrade-ruby'
-  t.test_files = FileList['spec/engrade-ruby/*_spec.rb']
-  t.verbose = true
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = 'spec/*_spec.rb'
+  spec.formatter = :documentation
 end
-task :default => :test
+
+task :default => :spec

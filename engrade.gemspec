@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["zgthompson@gmail.com"]
   gem.description   = %q{Basic ruby wrapper for the Engrade API}
   gem.summary       = %q{Utilize the Engrade API easily through Ruby}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/zgthompson/engrade"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

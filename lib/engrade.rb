@@ -10,7 +10,7 @@ module Engrade
   ###########################
   # VARIABLES AND CONSTANTS #
   ###########################
-  #
+  
   @default_params = { :api => 'json' }
   @browser = Engrade::Browser.new
 
@@ -42,7 +42,7 @@ module Engrade
   # CORE FUNCTIONALITY #
   ######################
   
-  # .post takes merges the default_params with query, a hash of input fields,
+  # .post merges the default_params with query, a hash of input fields,
   # and posts them to the api
   # Example: 
   # Engrade.post({:apitask => 'login', :usr => 'myusername', :pwd => 'secret'})

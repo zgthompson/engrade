@@ -1,25 +1,41 @@
-# Engrade::Ruby
+# engrade
 
-TODO: Write a gem description
+Ruby wrapper for the Engrade API
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'engrade-ruby'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install engrade-ruby
+```
+gem 'engrade'
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'engrade'
 
+# Getting started
+
+Engrade.set_apikey('123456789')
+Engrade.login('username', 'password')
+
+# Grabbing classes
+
+classes = Engrade.classes
+classes = Engrade.classes("Sem1")
+
+# Getting assignments from classes
+
+assignments = Engrade.assignments(classes)
+
+# Deleting assignments
+
+Engrade.delete(assignments)
+
+# Posting directly to Engrade
+# (make sure to set apikey and login first)
+
+Engrade.post(:apitask => 'assignment', :clid => '101', :assnid => '1')
+```
 ## Contributing
 
 1. Fork it
@@ -27,3 +43,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Contact
+Comments? Concerns? Want additional features?
+Contact me by email at zgthompson@gmail.com.

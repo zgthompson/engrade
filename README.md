@@ -5,7 +5,7 @@ Ruby wrapper for the Engrade API
 ## Installation
 
 ```
-gem 'engrade'
+gem install 'engrade'
 ```
 
 ## Usage

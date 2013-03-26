@@ -76,24 +76,18 @@ module Engrade
   # classes). if called with a regexp, it will only return the classes whose
   # name matches that regexp. if called with no argument, it will return all
   # classes.
-  def self.classes(regexp=nil)
-    classes = teacher_classes
-    classes.select! { |cl| cl['name'].match regexp } if regexp
-    classes.map { |cl| Classroom.new(cl) }
+  def self.classes(options={})
+    filter teacher_classes, options
   end
 
 
   # .assignments returns an array(of Assignment objects) of every assignment
   # from the input classes. the classes parameter can be the class id, a
   # Classroom object, an array of class ids, or an array of Classroom objects.
-  def self.assignments(classes)
-    assignments = []
-    clid_array(classes).each do |clid|
-      (Engrade.gradebook :clid => clid).
-        map { |assn| assignments << Assignment.new(assn) }
-    end
-    assignments
+  def self.assignments(classes, options={})
+    filter all_assignments(classes), options
   end
+
 
 
   # .delete takes in an array of Assignment object, or a single Assignment
@@ -113,8 +107,26 @@ module Engrade
   # HELPER METHODS #
   ##################
 
+  def self.filter(array=[], options={})
+    var = :name if array.first.instance_of? Classroom
+    var = :title if array.first.instance_of? Assignment
+    array.select! { |item| item.send(var).match options[:only]} if options[:only]
+    array.reject! { |item| item.send(var).match options[:except]} if options[:except]
+    array
+  end
+
+  def self.all_assignments(classes)
+    assignments = []
+    clid_array(classes).each do |clid|
+      (Engrade.gradebook :clid => clid).
+        map { |assn| assignments << Assignment.new(assn) }
+    end
+    assignments
+  end
+
   def self.teacher_classes(query={})
-    JSON(post :apitask => 'teacher-classes')['classes']
+    class_hash = JSON(post :apitask => 'teacher-classes')['classes']
+    class_hash.map { |cl| Classroom.new(cl) }
   end
 
 

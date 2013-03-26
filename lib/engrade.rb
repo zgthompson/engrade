@@ -73,9 +73,8 @@ module Engrade
 
   
   # .classes returns an array of Classroom objects(data structure to represent
-  # classes). if called with a regexp, it will only return the classes whose
-  # name matches that regexp. if called with no argument, it will return all
-  # classes.
+  # classes). when no argument is given, all classes are returned. the classes
+  # can be filtered by calling with the :only or :except option.
   def self.classes(options={})
     filter teacher_classes, options
   end
@@ -84,18 +83,20 @@ module Engrade
   # .assignments returns an array(of Assignment objects) of every assignment
   # from the input classes. the classes parameter can be the class id, a
   # Classroom object, an array of class ids, or an array of Classroom objects.
+  # assignments can be filtered by calling with the additional :only or :except
+  # option.
   def self.assignments(classes, options={})
     filter all_assignments(classes), options
   end
 
 
 
-  # .delete takes in an array of Assignment object, or a single Assignment
+  # .delete! takes in an array of Assignment object, or a single Assignment
   # object and deletes those assignments from the Engrade webpage. it also
   # removes the comments from those assignments before deleting, because of
   # a bug in the Engrade system where comments from deleted assignments
   # reappear when assignment ids are recycled.
-  def self.delete(assignments)
+  def self.delete!(assignments)
     assignments = array(assignments)
     assignments.each do |assn|
       @browser.remove_comments assn.clid, assn.assnid

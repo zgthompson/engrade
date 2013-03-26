@@ -21,15 +21,18 @@ Engrade.login('username', 'password')
 # Grabbing classes
 
 classes = Engrade.classes
-classes = Engrade.classes("Sem1")
+classes = Engrade.classes(:only => "Sem1")
+classes = Engrade.classes(:except => "Biology")
 
 # Getting assignments from classes
 
 assignments = Engrade.assignments(classes)
+assignments = Engrade.assignments(classes, :only => "Final")
+assignments = Engrade.assignments(classes, :except => "Quiz")
 
 # Deleting assignments
 
-Engrade.delete(assignments)
+Engrade.delete!(assignments)
 
 # Posting directly to Engrade
 # (make sure to set apikey and login first)

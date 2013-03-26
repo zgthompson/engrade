@@ -11,7 +11,7 @@ describe Engrade do
 
     VCR.use_cassette('assignments') { @assignments = Engrade.assignments @classes }
 
-    VCR.use_cassette('delete') { Engrade.delete @assignments }
+    VCR.use_cassette('delete') { Engrade.delete! @assignments }
 
     VCR.use_cassette('result') { @result = Engrade.assignments @classes }
 

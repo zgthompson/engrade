@@ -274,7 +274,7 @@ describe Engrade do
 
   end
 
-  describe ".delete" do
+  describe ".delete!" do
 
     before :each do
       Engrade.set_ses ENV['ENG_SES']
@@ -284,23 +284,23 @@ describe Engrade do
 
     it "should accept an array of Assignments as input" do
       assignments = [build(:assignment), build(:assignment)]
-      expect { Engrade.delete assignments }.to_not raise_error
+      expect { Engrade.delete! assignments }.to_not raise_error
     end
 
     it "should accept a single Assignment as input" do
       assignment = build :assignment
-      expect { Engrade.delete assignment }.to_not raise_error
+      expect { Engrade.delete! assignment }.to_not raise_error
     end
 
     it "should remove comments of every assignment" do
       assignments = [build(:assignment), build(:assignment)]
       Engrade.browser.should_receive(:remove_comments).exactly(2).times
-      Engrade.delete assignments
+      Engrade.delete! assignments
     end
 
     it "should call .post with proper query" do
       Engrade.should_receive(:post).with build(:delete)[:query]
-      Engrade.delete [build(:assignment)]
+      Engrade.delete! [build(:assignment)]
     end
     
 

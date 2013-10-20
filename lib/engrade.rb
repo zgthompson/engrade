@@ -77,7 +77,7 @@ module Engrade
   # can be filtered by calling with the :only or :except and :type (3=active, 2=archived, 
   # 1=trashed) option.
   def self.classes(options={})
-    filter teacher_classes, options
+    filter_classes teacher_classes, options
   end
 
 
@@ -87,7 +87,7 @@ module Engrade
   # assignments can be filtered by calling with the additional :only or :except
   # option
   def self.assignments(classes, options={})
-    filter all_assignments(classes), options
+    filter_assignments all_assignments(classes), options
   end
 
 
@@ -109,12 +109,17 @@ module Engrade
   # HELPER METHODS #
   ##################
 
-  def self.filter(array=[], options={})
-    var = :name if array.first.instance_of? Classroom
-    var = :title if array.first.instance_of? Assignment
-    array.select! { |item| item.send(var).match options[:only]} if options[:only]
-    array.reject! { |item| item.send(var).match options[:except]} if options[:except]
-    array.select! { |item| item.folder == options[:type] } if options[:type]
+  def self.filter_classes(array=[], options={})
+    array.select! { |cl| cl.name.match options[:only]} if options[:only]
+    array.reject! { |cl| cl.name.match options[:except]} if options[:except]
+    array.select! { |cl| cl.folder == options[:type] } if options[:type]
+    array.select! { |cl| cl.syr == options[:syr] } if options[:syr]
+    array
+  end
+
+  def self.filter_assignments(array=[], options={})
+    array.select! { |assn| assn.title.match options[:only]} if options[:only]
+    array.reject! { |assn| assn.title.match options[:except]} if options[:except]
     array
   end
 

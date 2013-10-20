@@ -72,11 +72,13 @@ module Engrade
   end
 
   
-  # .classes returns an array of Classroom objects(data structure to represent
+  # .classes returns an array of active Classroom objects(data structure to represent
   # classes). when no argument is given, all classes are returned. the classes
   # can be filtered by calling with the :only or :except option.
   def self.classes(options={})
-    filter teacher_classes, options
+    classes = teacher_classes
+    classes.select! { |item| item.folder == 3 }
+    filter classes, options
   end
 
 

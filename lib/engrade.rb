@@ -74,11 +74,10 @@ module Engrade
   
   # .classes returns an array of active Classroom objects(data structure to represent
   # classes). when no argument is given, all classes are returned. the classes
-  # can be filtered by calling with the :only or :except option.
+  # can be filtered by calling with the :only or :except and :type (3=active, 2=archived, 
+  # 1=trashed) option.
   def self.classes(options={})
-    classes = teacher_classes
-    classes.select! { |item| item.folder == 3 }
-    filter classes, options
+    filter teacher_classes, options
   end
 
 
@@ -86,7 +85,7 @@ module Engrade
   # from the input classes. the classes parameter can be the class id, a
   # Classroom object, an array of class ids, or an array of Classroom objects.
   # assignments can be filtered by calling with the additional :only or :except
-  # option.
+  # option
   def self.assignments(classes, options={})
     filter all_assignments(classes), options
   end
@@ -115,6 +114,7 @@ module Engrade
     var = :title if array.first.instance_of? Assignment
     array.select! { |item| item.send(var).match options[:only]} if options[:only]
     array.reject! { |item| item.send(var).match options[:except]} if options[:except]
+    array.select! { |item| item.folder == options[:type] } if options[:type]
     array
   end
 
